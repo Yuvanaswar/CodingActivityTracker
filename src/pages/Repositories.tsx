@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useData } from '../contexts/DataContext';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card';
-import { GitBranch, GitCommit, GitPullRequest, Star, Clock, Users, Search, FolderGit2 } from 'lucide-react';
+import { GitBranch, GitCommit, Star, Clock, Users, Search, FolderGit2, Target } from 'lucide-react';
 import { getLatestByMember } from '../utils/dataProcessing';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 
@@ -70,16 +70,16 @@ const Repositories: React.FC = () => {
                             <div className="p-2.5 rounded-xl bg-green-500/20 shadow-inner border border-green-500/30">
                                 <FolderGit2 className="h-6 w-6 text-green-400" />
                             </div>
-                            Project Repositories
+                            Team Workspaces
                         </h1>
-                        <p className="text-textMuted max-w-xl">Browse team source code repositories, track contribution velocity (problems solved), and monitor top contributors across the organization.</p>
+                        <p className="text-textMuted max-w-xl">Browse team workspaces, track contribution velocity (problems solved), and monitor top performers across the organization.</p>
                     </div>
 
                     <div className="relative w-full md:w-72">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-textMuted" />
                         <input
                             type="text"
-                            placeholder="Search repositories..."
+                            placeholder="Search workspaces..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="pl-10 w-full px-4 py-3 bg-white/5 border border-border rounded-xl focus:ring-2 focus:ring-green-500/50 focus:border-green-500/30 text-white placeholder-textMuted/50 transition-all font-medium"
@@ -101,24 +101,24 @@ const Repositories: React.FC = () => {
                                 <div className="text-xs font-semibold text-brand-400 uppercase tracking-widest">{repo.department}</div>
                             </div>
                             <div className="flex items-center gap-1 text-textMuted text-sm font-medium border border-border/50 px-2 py-1 rounded-lg bg-surface/50">
-                                <Star className="h-4 w-4 text-yellow-500" /> {repo.stars}
+                                <Target className="h-4 w-4 text-brand-400" /> Focus
                             </div>
                         </CardHeader>
                         <CardContent className="pt-5 space-y-5">
 
                             <div className="flex items-center justify-between text-sm">
-                                <div className="flex items-center gap-4 text-textMuted">
-                                    <span className="flex items-center gap-1.5"><GitCommit className="h-4 w-4" /> <span className="text-white font-medium">{repo.totalCommits.toLocaleString()}</span> commits</span>
-                                    <span className="flex items-center gap-1.5"><GitPullRequest className="h-4 w-4" /> <span className="text-white font-medium">{repo.openPrs}</span> open PRs</span>
+                                <div className="flex flex-wrap items-center gap-4 text-textMuted">
+                                    <span className="flex items-center gap-1.5"><GitCommit className="h-4 w-4" /> <span className="text-white font-medium">{repo.totalCommits.toLocaleString()}</span> problems solved</span>
+                                    <span className="flex items-center gap-1.5"><Users className="h-4 w-4" /> <span className="text-white font-medium">{repo.contributors.length}</span> active members</span>
                                 </div>
-                                <div className="text-xs text-textMuted flex items-center gap-1">
+                                <div className="text-xs text-textMuted flex items-center gap-1 whitespace-nowrap hidden sm:flex">
                                     <Clock className="h-3 w-3" /> updated {repo.lastUpdated}
                                 </div>
                             </div>
 
                             <div>
                                 <p className="text-xs font-semibold uppercase tracking-wider text-textMuted mb-3 flex items-center">
-                                    <Users className="h-3.5 w-3.5 mr-2" /> Top Contributors
+                                    <Star className="h-3.5 w-3.5 mr-2" /> Top Performers
                                 </p>
                                 <div className="flex items-center gap-4 border border-border/50 rounded-xl p-3 bg-white/5 hover:bg-white/10 transition-colors">
                                     <div className="flex -space-x-3 overflow-hidden">
@@ -134,7 +134,7 @@ const Repositories: React.FC = () => {
                                     {repo.contributors[0] && (
                                         <div className="text-right">
                                             <div className="text-xs font-bold text-white max-w-[100px] truncate" title={repo.contributors[0].memberName}>{repo.contributors[0].memberName}</div>
-                                            <div className="text-[10px] text-brand-400 uppercase tracking-wider">Lead Dev</div>
+                                            <div className="text-[10px] text-brand-400 uppercase tracking-wider">Top Coder</div>
                                         </div>
                                     )}
                                 </div>

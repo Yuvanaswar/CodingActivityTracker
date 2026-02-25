@@ -105,32 +105,32 @@ const Teams: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Search Teams</label>
+            <div className="group">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-textMuted mb-2 flex items-center transition-colors group-focus-within:text-brand-400">Search Teams</label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input type="text" placeholder="Search by team, department, leader..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-textMuted" />
+                <input type="text" placeholder="Search by team, department, leader..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10 w-full px-3 py-2 bg-white/5 border border-border rounded-lg focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500/30 text-white placeholder-textMuted transition-all font-medium" />
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center"><Filter className="h-4 w-4 mr-2" />Department</label>
-              <select value={selectedDept} onChange={(e) => { setSelectedDept(e.target.value); setSelectedSection(''); }} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option value="">All Departments</option>
-                {Object.entries(hierarchy).map(([deptId, dept]) => (<option key={deptId} value={deptId}>{dept.name}</option>))}
+            <div className="group">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-textMuted mb-2 flex items-center transition-colors group-focus-within:text-brand-400"><Filter className="h-3.5 w-3.5 mr-2" />Department</label>
+              <select value={selectedDept} onChange={(e) => { setSelectedDept(e.target.value); setSelectedSection(''); }} className="w-full px-3 py-2 bg-white/5 border border-border rounded-lg focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500/30 text-white transition-all cursor-pointer">
+                <option value="" className="bg-surface text-white">All Departments</option>
+                {Object.entries(hierarchy).map(([deptId, dept]) => (<option key={deptId} value={deptId} className="bg-surface text-white">{dept.name}</option>))}
               </select>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center"><Filter className="h-4 w-4 mr-2" />Section</label>
-              <select value={selectedSection} onChange={(e) => setSelectedSection(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" disabled={!selectedDept}>
-                <option value="">All Sections</option>
-                {selectedDept && Object.entries(hierarchy[selectedDept]?.sections || {}).map(([sectionId, section]) => (<option key={sectionId} value={sectionId}>{section.name}</option>))}
+            <div className="group">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-textMuted mb-2 flex items-center transition-colors group-focus-within:text-brand-400"><Filter className="h-3.5 w-3.5 mr-2" />Section</label>
+              <select value={selectedSection} onChange={(e) => setSelectedSection(e.target.value)} className="w-full px-3 py-2 bg-white/5 border border-border rounded-lg focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500/30 text-white transition-all cursor-pointer" disabled={!selectedDept}>
+                <option value="" className="bg-surface text-white">All Sections</option>
+                {selectedDept && Object.entries(hierarchy[selectedDept]?.sections || {}).map(([sectionId, section]) => (<option key={sectionId} value={sectionId} className="bg-surface text-white">{section.name}</option>))}
               </select>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center"><Crown className="h-4 w-4 mr-2" />Filter</label>
-              <label className="flex items-center mt-2">
-                <input type="checkbox" checked={showOnlyLeaderTeams} onChange={(e) => setShowOnlyLeaderTeams(e.target.checked)} className="mr-2" />
-                <span className="text-sm text-gray-700">Teams with Leaders only</span>
+            <div className="group">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-textMuted mb-2 flex items-center transition-colors group-focus-within:text-brand-400"><Crown className="h-3.5 w-3.5 mr-2" />Filter</label>
+              <label className="flex items-center mt-2 cursor-pointer group-hover:text-brand-400 transition-colors">
+                <input type="checkbox" checked={showOnlyLeaderTeams} onChange={(e) => setShowOnlyLeaderTeams(e.target.checked)} className="mr-2 rounded border-border bg-white/5 text-brand-500 focus:ring-brand-500/50" />
+                <span className="text-sm font-medium text-textMuted group-hover:text-white transition-colors">Teams with Leaders only</span>
               </label>
             </div>
           </div>
