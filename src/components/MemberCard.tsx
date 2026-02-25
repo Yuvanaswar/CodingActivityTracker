@@ -12,8 +12,10 @@ interface MemberCardProps {
 }
 
 const MemberCard: React.FC<MemberCardProps> = ({ member, rank, showTeamInfo = true }) => {
+  if (!member) return null;
+
   const performanceLevel =
-    member.totalSolved >= 500 ? 'high' :
+    (member.totalSolved || 0) >= 500 ? 'high' :
       member.totalSolved >= 200 ? 'medium' :
         member.totalSolved >= 50 ? 'low' : 'minimal';
 

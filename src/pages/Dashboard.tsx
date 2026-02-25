@@ -14,7 +14,8 @@ const Dashboard: React.FC = () => {
   const [selectedBatch, setSelectedBatch] = useState<string>('2023-2027');
 
   // Filter by department and batch if present on member data
-  const filtered = data.filter((d) => {
+  const filtered = (data || []).filter((d) => {
+    if (!d) return false;
     const deptOk = !selectedDept || d.deptId === selectedDept;
     const batchOk = !selectedBatch || (d as any).batch === selectedBatch || (d as any).assignedBatch === selectedBatch;
     return deptOk && batchOk;
@@ -29,9 +30,9 @@ const Dashboard: React.FC = () => {
     );
   }
 
-  const departments = Object.keys(hierarchy);
+  const departments = hierarchy ? Object.keys(hierarchy) : [];
 
-  const totalMembersCount = React.useMemo(() => new Set(data.map(d => d.memberId)).size, [data]);
+  const totalMembersCount = React.useMemo(() => new Set((data || []).map(d => d?.memberId).filter(Boolean)).size, [data]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 animate-fade-in relative">
@@ -90,7 +91,7 @@ const Dashboard: React.FC = () => {
                 <select value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)} className="w-full appearance-none px-4 py-3 bg-white/5 border border-border rounded-xl focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500/30 text-white transition-all cursor-pointer">
                   <option value="" className="bg-surface text-white">All Departments</option>
                   {departments.map((id) => (
-                    <option key={id} value={id} className="bg-surface text-white">{hierarchy[id].name || id}</option>
+                    <option key={id} value={id} className="bg-surface text-white">{hierarchy?.[id]?.name || id}</option>
                   ))}
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-textMuted group-focus-within:text-brand-400">

@@ -15,11 +15,17 @@ const MemberGrid: React.FC<MemberGridProps> = ({ data, showTeamInfo = true, titl
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'performance'>('performance');
 
-  const latestData = getLatestByMember(data);
+  const latestData = getLatestByMember(data || []);
 
-  const filteredMembers = latestData
-    .filter(m => (m.memberName || '').toLowerCase().includes(searchTerm.toLowerCase()) || (m.teamId || '').toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort((a, b) => sortBy === 'name' ? (a.memberName || '').localeCompare(b.memberName || '') : b.totalSolved - a.totalSolved);
+  const filteredMembers = (latestData || [])
+    .filter(m => {
+      if (!m) return false;
+      return (m.memberName || '').toLowerCase().includes(searchTerm.toLowerCase()) || (m.teamId || '').toLowerCase().includes(searchTerm.toLowerCase());
+    })
+    .sort((a, b) => {
+      if (!a || !b) return 0;
+      return sortBy === 'name' ? (a.memberName || '').localeCompare(b.memberName || '') : (b.totalSolved || 0) - (a.totalSolved || 0);
+    });
 
   return (
     <Card hover className="bg-gradient-to-br from-surface to-surface/90 border-t-brand-500/30">
