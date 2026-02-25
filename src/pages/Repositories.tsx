@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { useData } from '../contexts/DataContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card';
-import { Trophy, Users, Search, FolderGit2, Crown, ChevronRight, BarChart3, Target } from 'lucide-react';
+import { Trophy, Users, Search, FolderGit2, Crown, ChevronRight, BarChart3, Target, Eye } from 'lucide-react';
 import { getLatestByMember, getTeamStats } from '../utils/dataProcessing';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 
@@ -29,6 +29,7 @@ interface TeamWorkspace {
 }
 
 const Repositories: React.FC = () => {
+    const navigate = useNavigate();
     const { data, hierarchy, loading } = useData();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedDept, setSelectedDept] = useState<string>('');
@@ -233,7 +234,7 @@ const Repositories: React.FC = () => {
                 {filteredWorkspaces.map((ws) => {
                     const bar = getPlatformBar(ws);
                     return (
-                        <Card key={ws.id} hover className="bg-gradient-to-br from-surface to-surface/90 border-t-green-500/30 group">
+                        <Card key={ws.id} hover className="bg-gradient-to-br from-surface to-surface/90 border-t-green-500/30 group cursor-pointer" onClick={() => navigate(`/team/${ws.deptId}/${ws.sectionId}/${ws.id}`)}>
                             <CardHeader className="border-b border-border/50 pb-4">
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1 min-w-0">
@@ -327,6 +328,16 @@ const Repositories: React.FC = () => {
                                         )}
                                     </div>
                                 </div>
+
+                                {/* View Team Button */}
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); navigate(`/team/${ws.deptId}/${ws.sectionId}/${ws.id}`); }}
+                                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-green-500/10 to-brand-500/10 border border-green-500/20 text-green-400 text-sm font-semibold hover:from-green-500/20 hover:to-brand-500/20 hover:text-white transition-all group/btn"
+                                >
+                                    <Eye className="h-4 w-4 group-hover/btn:scale-110 transition-transform" />
+                                    View Team Details
+                                    <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                                </button>
 
                             </CardContent>
                         </Card>
