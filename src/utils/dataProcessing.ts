@@ -18,9 +18,7 @@ export function getLatestByMember(data: DailyTotal[]): DailyTotal[] {
     if (!cur || new Date(rec.date) > new Date(cur.date)) map.set(rec.memberId, rec);
   });
   return Array.from(map.values()).sort((a, b) => {
-    if (a.isTeamLead && !b.isTeamLead) return -1;
-    if (!a.isTeamLead && b.isTeamLead) return 1;
-    return b.totalSolved - a.totalSolved;
+    return (b.totalSolved || 0) - (a.totalSolved || 0);
   });
 }
 
